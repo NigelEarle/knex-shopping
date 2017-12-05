@@ -4,6 +4,13 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   // fetch all users
+  return knex.select().table('users')
+  .then(users => {
+    res.json(users);
+  })
+  .catch(err => {
+    res.json(err);
+  });
 });
 
 router.get('/:user_id', (req, res) => {

@@ -11,7 +11,7 @@ router.post('/:user_id', (req, res) => {
 });
 
 router.delete('/:user_id/:product_id', (req, res) => {
-
+  // remove record with user id and product id
 });
 
 
