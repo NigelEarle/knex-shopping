@@ -8,6 +8,16 @@ router.get('/:user_id', (req, res) => {
 
 router.post('/:user_id', (req, res) => {
   // add new record to cart table with req.body.product_id
+  const { user_id } = req.params;
+  const { product_id } = req.body;
+
+  return knex.insert({ user_id: user_id, product_id: product_id }).table('cart')
+  .then(result => {
+    return res.json({ success: true });
+  })
+  .catch(err => {
+    return res.json(err);
+  })
 });
 
 router.delete('/:user_id/:product_id', (req, res) => {

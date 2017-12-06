@@ -117,7 +117,7 @@ router.delete('/:product_id/delete', (req, res) => {
       // successfully deleted
       return res.json({ message: `Product id: ${product_id} successfully deleted` })
     } else {
-      return res.json({ message: `Product id: ${product_id} not found` })
+      return res.json({ message: `Product id not found` })
     }
   })
   .catch(err => {
