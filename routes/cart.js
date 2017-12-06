@@ -3,10 +3,9 @@ const knex = require('../knex/knex');
 const router = express.Router();
 
 router.get('/:user_id', (req, res) => {
-  // get all products with user id through cart
+  // get all products with user id
   const { user_id } = req.params;
 
-  // return knex.
 });
 
 router.post('/:user_id', (req, res) => {
@@ -34,6 +33,9 @@ router.delete('/:cart_item_id/delete', (req, res) => {
     } else {
       return res.json({ message: `Cart item id not found` });
     }
+  })
+  .catch(err => {
+    return res.json(err);
   })
 });
 
