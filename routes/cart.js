@@ -23,8 +23,18 @@ router.post('/:user_id', (req, res) => {
   })
 });
 
-router.delete('/:user_id/:product_id', (req, res) => {
+router.delete('/:cart_item_id/delete', (req, res) => {
   // remove record with user id and product id
+  const { cart_item_id } = req.params;
+
+  return knex('cart').where('id', cart_item_id).del()
+  .then(result => {
+    if (result === 1) {
+      return res.json({ message: `Cart item id: ${cart_item_id} successfully deleted` });
+    } else {
+      return res.json({ message: `Cart item id not found` });
+    }
+  })
 });
 
 
