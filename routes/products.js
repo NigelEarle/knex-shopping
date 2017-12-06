@@ -73,8 +73,39 @@ router.post('/new', validateProduct, (req, res) => {
   })
 });
 
-router.put('/:product_id/update', (req, res) => {
+router.put('/:product_id/update', validateProduct, (req, res) => {
   // update product details
+  const { product_id } = req.params;
+  const {
+    title,
+    description,
+    price,
+    inventory 
+  } = req.body;
+  
+  return knex.where('id', product_id).table('products')
+  .then(product => {
+    if (product.length > 0){
+      // product found
+      return knex('products').where('id', product_id).update({
+        title: title,
+        description: description,
+        price: price,
+        inventory:inventory
+      })
+    } else {
+      return res.json({ message: 'Product not found' })
+    }
+  })
+  .then(result => {
+    if (result === 1) {
+      // 2 signifies successful change
+      return res.json({ message: `Product id: ${product_id} has been updated` });
+    }
+  })
+  .catch(err => {
+    return res.json(err);
+  })
 });
 
 router.delete('/:product_id/delete', (req, res) => {
