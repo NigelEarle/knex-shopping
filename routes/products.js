@@ -109,7 +109,20 @@ router.put('/:product_id/update', validateProduct, (req, res) => {
 });
 
 router.delete('/:product_id/delete', (req, res) => {
-  // delete product by id
+  const { product_id } = req.params;
+
+  return knex('products').where('id', product_id).del()
+  .then(result => {
+    if (result === 1) {
+      // successfully deleted
+      return res.json({ message: `Product id: ${product_id} successfully deleted` })
+    } else {
+      return res.json({ message: `Product id: ${product_id} not found` })
+    }
+  })
+  .catch(err => {
+    return res.json(err);
+  })
 });
 
 module.exports = router;
