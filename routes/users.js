@@ -97,7 +97,9 @@ router.put('/:user_id/forgot-password', (req, res) => {
     }
   })
   .then(result => {
-    if (result === 1) return res.json({ message: 'New password created!' })
+    if (result === 1){
+      return res.json({ message: 'New password created!' })
+    }
   })
   .catch(err => {
     return res.json(err);
@@ -105,7 +107,20 @@ router.put('/:user_id/forgot-password', (req, res) => {
 });
 
 router.delete('/:user_id/delete', (req, res) => {
-  
+  const { user_id } = req.params;
+
+  return knex('users').where('id', user_id).del()
+  .then(result => {
+    if (result === 1) {
+      // successfully deleted
+      return res.json({ message: `User id: ${user_id} successfully deleted` })
+    } else {
+      return res.json({ message: `User id not found` })
+    }
+  })
+  .catch(err => {
+    return res.json(err)
+  })
 });
 
 module.exports = router;
