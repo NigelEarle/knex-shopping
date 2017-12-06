@@ -26,7 +26,7 @@ router.get('/:user_id', (req, res) => {
   // get user by id
   const { user_id } = req.params;
 
-  // ALTERNATE: return knex('users').where('id', user_id) 
+  // ALTERNATE THROUGHOUT: return knex('users').where('id', user_id) 
   return knex.select().where('id', user_id).table('users')
   .then(user => {
     return res.json(user);
@@ -98,6 +98,7 @@ router.put('/:user_id/forgot-password', (req, res) => {
   })
   .then(result => {
     if (result === 1){
+      // successfull updated
       return res.json({ message: 'New password created!' })
     }
   })

@@ -4,6 +4,13 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   // fetch all products
+  return knex.select('*').table('products')
+  .then(products => {
+    return res.json(products)
+  })
+  .catch(err => {
+    return res.json(err);
+  })
 });
 
 router.get('/:product_id', (req, res) => {
