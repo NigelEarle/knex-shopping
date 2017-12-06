@@ -15,6 +15,15 @@ router.get('/', (req, res) => {
 
 router.get('/:product_id', (req, res) => {
   // fetch single product
+  const { product_id } = req.params;
+
+  return knex.where('id', product_id).table('products')
+  .then(product => {
+    return res.json(product);
+  })
+  .catch(err => {
+    return res.json(err);
+  })
 });
 
 router.post('/new', (req, res) => {
