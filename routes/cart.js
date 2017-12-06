@@ -4,6 +4,9 @@ const router = express.Router();
 
 router.get('/:user_id', (req, res) => {
   // get all products with user id through cart
+  const { user_id } = req.params;
+
+  // return knex.
 });
 
 router.post('/:user_id', (req, res) => {

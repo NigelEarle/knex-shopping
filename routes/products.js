@@ -59,12 +59,7 @@ router.post('/new', validateProduct, (req, res) => {
     inventory: inventory
   })
   .into('products')
-  .then(result => {
-    if (result.rows.length === 0) {
-      // check result.rows obj, insert doesn't return object
-      return knex.where('title', title).table('products')
-    }
-  })
+  .returning('*')
   .then(product => {
     return res.json(product);
   })

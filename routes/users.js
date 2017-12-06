@@ -65,10 +65,9 @@ router.post('/register', validateCredentials, (req, res) => {
       // user found, will not insert
       return res.json({ message: 'User already exists' })
     }
-    return knex.insert({ email: email, password: password }).into('users');
-  })
-  .then(result => {
-    return knex('users').where('email', email); // fetch user because insert doesn't return user obj.
+    return knex.insert({ email: email, password: password })
+    .into('users')
+    .returning('*');
   })
   .then(user => {
     return res.json(user);
@@ -88,7 +87,7 @@ router.put('/:user_id/forgot-password', (req, res) => {
     if (user.length > 0){
       // user found by id
       if (password) {
-        return knex('users').where('id', user_id).update({ password: password })
+        return knex('users').where('id', user_id).update({ password: password }) // checkout returning
       } else {
         return res.json({ message: 'Must send new password' })
       }
