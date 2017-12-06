@@ -6,15 +6,25 @@ router.get('/', (req, res) => {
   // fetch all users
   return knex.select().table('users')
   .then(users => {
-    res.json(users);
+    return res.json(users);
   })
   .catch(err => {
-    res.json(err);
+    return res.json(err);
   });
 });
 
 router.get('/:user_id', (req, res) => {
   // get user by id
+  const { user_id } = req.params;
+
+  // ALTERNATE: return knex('users').where('id', user_id) 
+  return knex.select().where('id', user_id).table('users')
+  .then(user => {
+    return res.json(user);
+  })
+  .catch(err => {
+    return res.json(user);
+  })
 });
 
 router.post('/login', (req,res) => {
