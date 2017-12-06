@@ -87,7 +87,7 @@ router.put('/:user_id/forgot-password', (req, res) => {
     if (user.length > 0){
       // user found by id
       if (password) {
-        return knex('users').where('id', user_id).update({ password: password }) // checkout returning
+        return knex('users').where('id', user_id).update({ password: password }).returning('*')
       } else {
         return res.json({ message: 'Must send new password' })
       }
@@ -95,11 +95,8 @@ router.put('/:user_id/forgot-password', (req, res) => {
       return res.json({ message: 'User not found' })
     }
   })
-  .then(result => {
-    if (result === 1){
-      // successfull updated
-      return res.json({ message: 'New password created!' })
-    }
+  .then(user => {
+    return res.json(user);
   })
   .catch(err => {
     return res.json(err);

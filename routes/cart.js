@@ -5,7 +5,16 @@ const router = express.Router();
 router.get('/:user_id', (req, res) => {
   // get all products with user id
   const { user_id } = req.params;
-
+  return knex.from('cart')
+  .innerJoin('users', 'cart.user_id', 'users.id')
+  .innerJoin('products', 'cart.product_id', 'products.id')
+  .where('cart.user_id', user_id)
+  .then(data => {
+    return res.json(data);
+  })
+  .catch(err => {
+    return res.json(err);
+  })
 });
 
 router.post('/:user_id', (req, res) => {
