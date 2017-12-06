@@ -80,10 +80,32 @@ router.post('/register', validateCredentials, (req, res) => {
 
 router.put('/:user_id/forgot-password', (req, res) => {
   // update password of user by id
+  const { user_id } = req.params;
+  const { password } = req.body;
+
+  return knex.select().where('id', user_id).table('users')
+  .then(user => {
+    if (user.length > 0){
+      // user found by id
+      if (password) {
+        return knex('users').where('id', user_id).update({ password: password })
+      } else {
+        return res.json({ message: 'Must send new password' })
+      }
+    } else {
+      return res.json({ message: 'User not found' })
+    }
+  })
+  .then(result => {
+    if (result === 1) return res.json({ message: 'New password created!' })
+  })
+  .catch(err => {
+    return res.json(err);
+  })
 });
 
 router.delete('/:user_id/delete', (req, res) => {
-  // delete user by id
+  
 });
 
 module.exports = router;
